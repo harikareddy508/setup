@@ -1,10 +1,28 @@
 .Layout {
-  .button-toolbar {
-    .link-button {
-      background-color: red;
+  .container {
+    margin-top: 2rem;
+    background-color:gray;
+    width: 50%;
+    height: 30rem;
+  }
+  .alarm-group, .time-group, .radio-group {
+    width: 50%;
+    height: 6rem;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    margin-top:1rem;
+  }
+  .radio-group {
+    .callout {
+      margin-top: 0.1rem;
+      margin-right: 1rem;
+      margin-bottom: 0;
     }
-    .button {
-      background-color: green;
-    }
+  }
+  .submit-button{
+    float: right;
+    background-color:deepskyblue;
+    border-color:deepskyblue;
+    color: white;
   }
 }

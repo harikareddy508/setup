@@ -19,7 +19,7 @@ module.exports = {
 			},
 			{ test: /\.json$/, loader: 'json' },
 			{
-					test: /\.scss$/,
+					test: /\.(scss|css)$/,
 					loaders: ['style', 'css', 'sass']
 			}
 		]
