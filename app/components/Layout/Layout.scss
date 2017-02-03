@@ -1,14 +1,7 @@
 .Layout {
-  .container {
-    margin-top: 2rem;
-    background-color:gray;
-    width: 50%;
-    height: 30rem;
-  }
   .alarm-group, .time-group, .radio-group {
     width: 50%;
     height: 6rem;
-    margin: 0 auto;
     margin-bottom: 1rem;
     margin-top:1rem;
   }
@@ -20,9 +13,12 @@
     }
   }
   .submit-button{
-    float: right;
-    background-color:deepskyblue;
-    border-color:deepskyblue;
+    margin-top: 1rem;
+    background-color:lightblue;
+    border-color:lightblue;
     color: white;
+    padding: 5px 20px;
+    border: 2px solid lightblue;
+    font-size: 16px;
   }
 }
