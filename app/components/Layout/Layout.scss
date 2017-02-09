@@ -1,6 +1,11 @@
 .Layout {
-  .alarm-group, .time-group, .radio-group {
-    width: 50%;
+  .image-container {
+    background-color: white;
+  }
+  .image-header {
+    height: 5.5rem;
+  }
+ .time-group, .radio-group {
     height: 6rem;
     margin-bottom: 1rem;
     margin-top:1rem;
@@ -20,5 +25,39 @@
     padding: 5px 20px;
     border: 2px solid lightblue;
     font-size: 16px;
+  }
+  .inner-container {
+    .alarm-label {
+      height: 3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      div {
+        display: inline-block;
+      }
+    }
+    .label {
+      color: black;
+    }
+    .value {
+      width: 20rem;
+      border: 1px solid gray;
+      padding-left: 2rem;
+      padding-top: 0.5rem;
+      height: 3rem;
+      margin-top: 0rem;
+    }
+    .tabs {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      background-color: white;
+      padding-top: 1rem;
+      border-radius: 0.5rem;
+      .react-tabs {
+        height: 80rem;
+      }
+    }
   }
 }

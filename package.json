@@ -33,6 +33,7 @@
     "react-data-grid": "^2.0.4",
     "react-data-grid-addons": "^2.0.4",
     "react-dom": "^15.4.2",
-    "react-select": "^1.0.0-rc.2"
+    "react-select": "^1.0.0-rc.2",
+    "react-tabs": "^0.8.2"
   }
 }

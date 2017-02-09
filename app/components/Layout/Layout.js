@@ -1,9 +1,16 @@
 import React, { Component, PropTypes } from 'react'
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-import { ButtonGroup, Radio, Label } from 'react-bootstrap'
+import { ButtonGroup, Radio, Label, FieldGroup } from 'react-bootstrap'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Grid from '../Grid'
 import './Layout.scss'
+
+const options = [
+    { value: '3', label: 'harika' },
+    { value: '4', label: 'reddy' },
+    { value: '6', label: 'anil' }
+]
 
 const times = [
     { value: '30', label: '30' },
@@ -28,32 +35,28 @@ export default class Layout extends Component {
           alarmname: selectedValue.label,
       })
        } else {
-          this.setState({
-           alarm: null
-      })
+        this.setState({
+            alarm: null,
+            alarmname: null,
+        })
     }
   }
 
 
-  sendToDB() {
+  sendToDB = () => {
     //this.state.alarm => 'selected value' => 123
     fetch('url to post', {
       method: 'POST',
-      body: {
-        id: this.state.alarm,
-        name: this.state.alarmname,
-        time: this.state.time,
+      body: [
+        {
+        alarm_id: this.state.alarm,
+        alarm_name: this.state.alarmname,
+        threshold: this.state.time,
         callout: this.state.callout,
-        user: 'bolleha'
-      } // {id: 123, firstname: 'harika', time: 'late'}
+      }
+      ]// {id: 123, firstname: 'harika', time: 'late'}
     }).then((response) => response.json()).then((json) => {
-      console.log(json) //what ever be the response for POST request
-      //this.parseResponse(json)
-      fetch('url').then((innerResponse) => innerResponse.json()).then((innerJson) => {
-        this.setState({
-          data: innerJson,
-        })
-      })
+      console.log(json)
     })
   }
 
@@ -114,44 +117,65 @@ export default class Layout extends Component {
   render() {
     return (
       <div className="Layout">
-        <header>
-          <img className="image-header" src="public/images/download.png" />
+        <header className="image-container">
+          <img className="image-header" src="public/images/vzw-logo-156-130-c.jpeg" />
         </header>
-        <div className="container">
+        <div className="container col-md-9">
           <div className="alarm-group">
             <label className="alarm-name">Alarm Name:</label>
             <Select
               className="select-alarm-name"
               name="form-field-name"
               value={this.state.alarm}
-              options={this.state.alarmOptions}
+              options={options}
               onChange={this.handleAlarmChange}
             />
+           </div>
+           <div className="grid">
+            {/*<Grid data={this.state.data}/> */}
+            <Grid />
           </div>
-          <div className="time-group">
-            <label className="time-stamp">Time Stamp:</label>
-            <Select
-              className="select-time-stamp"
-              name="form-field-name"
-              value={this.state.time}
-              options={times}
-              onChange={this.handleTimeChange}
-            />
-          </div>
-          <div className="radio-group">
-            <label className="callout">Call Out:</label>
-            <ButtonGroup>
-                <Radio inline name="groupOptions" onChange={() => this.handleCheckbox('option 1')}>Option 1</Radio>
-                <Radio inline name="groupOptions" onChange={() => this.handleCheckbox('option 2')}>Option 2</Radio>
-            </ButtonGroup>
-          </div>
-          <button className="submit-button" type="submit">Submit</button>
         </div>
-        <div className="grid">
-          {/*<Grid data={this.state.data}/> */}
-          <Grid />
-        </div>
+        <div className="inner-container col-md-3">
+          <div className="alarm-label">
+            <div className="label">
+              <span className="name">Alarm Name</span>
+            </div>
+            <div className="value">{this.state.alarmname}</div>
+          </div>
+          <div className="tabs">
+            <Tabs>
+              <TabList>
+                <Tab>Ticket Automation</Tab>
+                <Tab>OLA</Tab>
+              </TabList>
+              <TabPanel>
+                <div className="time-group">
+                  <label className="time-stamp">Time Stamp:</label>
+                  <Select
+                    className="select-time-stamp"
+                    name="form-field-name"
+                    value={this.state.time}
+                    options={times}
+                    onChange={this.handleTimeChange}
+                  />
+                </div>
+                <div className="radio-group">
+                  <label className="callout">Call Out:</label>
+                  <ButtonGroup>
+                      <Radio inline name="groupOptions" onChange={() => this.handleCheckbox('option 1')}>Option 1</Radio>
+                      <Radio inline name="groupOptions" onChange={() => this.handleCheckbox('option 2')}>Option 2</Radio>
+                  </ButtonGroup>
+                </div>
+                <button className="submit-button" onClick={this.sendToDB} type="submit">Submit</button>
+              </TabPanel>
+              <TabPanel>
+                OLA
+              </TabPanel>
+            </Tabs>
+          </div>
       </div>
+    </div>
     )
   }
 }
