@@ -3,6 +3,7 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import { ButtonGroup, Radio, Label, FieldGroup } from 'react-bootstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react'
 import Grid from '../Grid'
 import './Layout.scss'
 
@@ -25,6 +26,7 @@ export default class Layout extends Component {
     this.state = {
       alarmOptions: [],
       data: [],
+      visible: false,
     }
   }
 
@@ -54,33 +56,21 @@ export default class Layout extends Component {
         threshold: this.state.time,
         callout: this.state.callout,
       }
-      ]// {id: 123, firstname: 'harika', time: 'late'}
+      ]
     }).then((response) => response.json()).then((json) => {
       console.log(json)
     })
   }
 
   parseResponse(json) {
-    console.log(json) // [{'id': 123, 'name': 'anil'}, {'id': 124, 'name': 'hari'}] or {'data': [{'id': 12132, 'name': 'sada'}]}
+    console.log(json)
     const options = []
     for(var i = 0; i< json.length; i++) {
       options.push({
         label: json[i].name,
         value: json[i].id,
       })
-    }//output? [{'value': 123, 'label': 'anil'}]
-    //this.state.alarmOptions = options
-
-    //const options = []
-    //for(var i = 0; i< json.data.length; i++) {
-    //options.push({
-    //label: json.data[i].name,
-    //value: json.data[i].id,
-    //})
-    //}
-    //output? [{'value': 123, 'label': 'anil'}]
-    //this.state.alarmOptions = options
-
+    }
     this.setState({
       alarmOptions: options
     })
@@ -114,67 +104,94 @@ export default class Layout extends Component {
     })
   }
 
+  handleClickOnMenu = (e) => {
+    this.setState({
+      visible: !this.state.visible,
+    })
+  }
+
   render() {
     return (
       <div className="Layout">
         <header className="image-container">
           <img className="image-header" src="public/images/vzw-logo-156-130-c.jpeg" />
         </header>
-        <div className="container col-md-9">
-          <div className="alarm-group">
-            <label className="alarm-name">Alarm Name:</label>
-            <Select
-              className="select-alarm-name"
-              name="form-field-name"
-              value={this.state.alarm}
-              options={options}
-              onChange={this.handleAlarmChange}
-            />
-           </div>
-           <div className="grid">
-            {/*<Grid data={this.state.data}/> */}
-            <Grid />
-          </div>
+        <div className="content">
+          <Icon name="list layout" onClick={this.handleClickOnMenu} />
+          <Sidebar.Pushable as={Segment}>
+            <Sidebar as={Menu} animation='overlay' width='thin' visible={this.state.visible} icon='labeled' vertical inverted>
+              <Menu.Item name='home'>
+                <Icon name='home' />
+                Home
+              </Menu.Item>
+              <Menu.Item name='gamepad'>
+                <Icon name='gamepad' />
+                Games
+              </Menu.Item>
+            </Sidebar>
+            <Sidebar.Pusher>
+              <Segment basic>
+                <div>
+                  <div className="container col-md-9">
+                      <div className="alarm-group">
+                        <label className="alarm-name">Alarm Name:</label>
+                        <Select
+                          className="select-alarm-name"
+                          name="form-field-name"
+                          value={this.state.alarm}
+                          options={options}
+                          onChange={this.handleAlarmChange}
+                        />
+                      </div>
+                      <div className="grid">
+                        {/*<Grid data={this.state.data}/> */}
+                        <Grid />
+                      </div>
+                    </div>
+                    <div className="inner-container col-md-3">
+                      <div className="alarm-label">
+                        <div className="label">
+                          <span className="name">Alarm Name</span>
+                        </div>
+                        <div className="value">{this.state.alarmname}</div>
+                      </div>
+                      <div className="tabs">
+                        <Tabs>
+                          <TabList>
+                            <Tab>Ticket Automation</Tab>
+                            <Tab>OLA</Tab>
+                          </TabList>
+                          <TabPanel>
+                            <div className="time-group">
+                              <label className="time-stamp">Time Stamp:</label>
+                              <Select
+                                className="select-time-stamp"
+                                name="form-field-name"
+                                value={this.state.time}
+                                options={times}
+                                onChange={this.handleTimeChange}
+                              />
+                            </div>
+                            <div className="radio-group">
+                              <label className="callout">Call Out:</label>
+                              <ButtonGroup>
+                                  <Radio inline name="groupOptions" onChange={() => this.handleCheckbox('option 1')}>Option 1</Radio>
+                                  <Radio inline name="groupOptions" onChange={() => this.handleCheckbox('option 2')}>Option 2</Radio>
+                              </ButtonGroup>
+                            </div>
+                            <button className="submit-button" onClick={this.sendToDB} type="submit">Submit</button>
+                          </TabPanel>
+                          <TabPanel>
+                            OLA
+                          </TabPanel>
+                        </Tabs>
+                      </div>
+                  </div>
+                </div>
+              </Segment>
+            </Sidebar.Pusher>
+          </Sidebar.Pushable>
         </div>
-        <div className="inner-container col-md-3">
-          <div className="alarm-label">
-            <div className="label">
-              <span className="name">Alarm Name</span>
-            </div>
-            <div className="value">{this.state.alarmname}</div>
-          </div>
-          <div className="tabs">
-            <Tabs>
-              <TabList>
-                <Tab>Ticket Automation</Tab>
-                <Tab>OLA</Tab>
-              </TabList>
-              <TabPanel>
-                <div className="time-group">
-                  <label className="time-stamp">Time Stamp:</label>
-                  <Select
-                    className="select-time-stamp"
-                    name="form-field-name"
-                    value={this.state.time}
-                    options={times}
-                    onChange={this.handleTimeChange}
-                  />
-                </div>
-                <div className="radio-group">
-                  <label className="callout">Call Out:</label>
-                  <ButtonGroup>
-                      <Radio inline name="groupOptions" onChange={() => this.handleCheckbox('option 1')}>Option 1</Radio>
-                      <Radio inline name="groupOptions" onChange={() => this.handleCheckbox('option 2')}>Option 2</Radio>
-                  </ButtonGroup>
-                </div>
-                <button className="submit-button" onClick={this.sendToDB} type="submit">Submit</button>
-              </TabPanel>
-              <TabPanel>
-                OLA
-              </TabPanel>
-            </Tabs>
-          </div>
-      </div>
     </div>
     )
   }

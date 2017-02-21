@@ -1,4 +1,10 @@
 .Layout {
+  * {
+    font-size: 1.2rem !important;
+  }
+  .content {
+    background-color: white;
+  }
   .image-container {
     background-color: white;
   }
@@ -9,6 +15,9 @@
     height: 6rem;
     margin-bottom: 1rem;
     margin-top:1rem;
+  }
+  .grid {
+    margin-top: 3rem;
   }
   .radio-group {
     .callout {
@@ -60,4 +69,9 @@
       }
     }
   }
+}
+
+.ui.segment, .ui.segments .segment {
+    font-size: 1rem;
+    border-top: none;
 }
