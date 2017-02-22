@@ -7,11 +7,6 @@ import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui
 import Grid from '../Grid'
 import './Layout.scss'
 
-const options = [
-    { value: '3', label: 'harika' },
-    { value: '4', label: 'reddy' },
-    { value: '6', label: 'anil' }
-]
 
 const times = [
     { value: '30', label: '30' },
@@ -28,6 +23,7 @@ export default class Layout extends Component {
       data: [],
       visible: false,
       visibleOptions: [],
+      groupassignOptions: [],
     }
   }
 
@@ -92,11 +88,31 @@ export default class Layout extends Component {
       console.log(error)
     })
     fetch('public/Jsonfile/smartAlarmingGridData.json').then(response => response.json()).then((json) => {
-      console.log(json);
+      const entries = json.reduce((accu, elem) => {
+        const groupAssign = elem["Group Assign"]
+        if (!accu.some((el) => el.name === groupAssign)) {
+          accu = [...accu, { name: groupAssign, id: groupAssign }];
+        }
+        return accu;
+      }, [])
+      const options = this.constructOptions(entries);
       this.setState({
         data: json,
+        groupassignOptions: options,
       })
     })
+  }
+
+  handleGroupAssignChange = (selectedValue) => {
+    if (selectedValue) {
+      this.setState({
+        groupassign: selectedValue.value
+      })
+    } else {
+      this.setState({
+        groupassign: null
+      })
+    }
   }
 
   handleTimeChange = (selectedValue) => {
@@ -191,9 +207,9 @@ export default class Layout extends Component {
                               <Select
                                 className="select-group-assign"
                                 name="form-field-name"
-                                value={this.state.time}
-                                options={times}
-                                onChange={this.handleTimeChange}
+                                value={this.state.groupassign}
+                                options={this.state.groupassignOptions}
+                                onChange={this.handleGroupAssignChange}
                               />
                             </div>
                               <div className="time-group">
