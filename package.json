@@ -35,6 +35,7 @@
     "react-dom": "^15.4.2",
     "react-select": "^1.0.0-rc.2",
     "react-tabs": "^0.8.2",
-    "semantic-ui-react": "^0.65.0"
+    "semantic-ui-react": "^0.65.0",
+    "simple-react-modal": "^0.5.1"
   }
 }

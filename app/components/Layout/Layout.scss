@@ -1,6 +1,6 @@
 .Layout {
   * {
-    font-size: 1.2rem !important;
+    font-size: 1.5rem !important;
   }
   .content {
     background-color: white;
@@ -18,6 +18,9 @@
   }
   .grid {
     margin-top: 3rem;
+  }
+  .react-grid-Header {
+    text-align: center;
   }
   .radio-group {
     .callout {
@@ -74,4 +77,27 @@
 .ui.segment, .ui.segments .segment {
     font-size: 1rem;
     border-top: none;
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  .row {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    .name {
+      font-weight: bold;
+      flex: 2;
+    }
+    .value {
+      flex: 1;
+    }
+  }
 }
