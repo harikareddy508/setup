@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import DataGrid from 'react-data-grid'
 import Modal from 'simple-react-modal'
-import { Toolbar } from 'react-data-grid-addons'
+import { Toolbar,  Data } from 'react-data-grid-addons'
 
 class ColumnModal extends Component {
   constructor(props) {
@@ -35,49 +35,92 @@ export default class Grid extends Component {
         {
           key: 'Manager Class',
           name: 'Manager Class',
+          resizable: true,
+          sortable: true,
           filterable: true
         },
         {
           key: 'Alert Name',
           name: 'Alert Name',
+          resizable: true,
+          sortable: true,
           filterable: true
         },
         {
           key: 'Alert Description',
           name: 'Alert Description',
+          resizable: true,
+          sortable: true,
           filterable: true
         },
         {
           key: "stats",
           name: "Stats",
+          resizable: true,
+          sortable: true,
           formatter: ColumnModal,
         },
         {
           key: 'Considerations',
           name: 'Considerations',
+          resizable: true,
+          sortable: true,
           filterable: true
         }
-      ]
+      ],
+      rows: [],
+      filters: {},
+      sortColumn: {},
+      sortDirection: 'ASC',
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.data !== this.props.data) {
+      this.setState({
+        rows: nextProps.data,
+      })
     }
   }
 
 
+
   rowGetter = (rowIndex) => {
-    const { data } = this.props
+    const data = this.getRows()
     const rowData = data[rowIndex];
     return rowData
   }
 
+  getRows() {
+    return Data.Selectors.getRows(this.state);
+  }
+
   getSize() {
-    return this.props.data.length;
+    return this.getRows().length;
   }
 
-  handleFilterChange(filter) {
-    console.log(filter);
+  getSize() {
+    return this.getRows().length;
   }
 
-  onClearFilters() {
-    console.log('Clear Filter')
+  handleFilterChange = (filter) => {
+    let newFilters = Object.assign({}, this.state.filters);
+    if (filter.filterTerm) {
+      newFilters[filter.column.key] = filter;
+    } else {
+      delete newFilters[filter.column.key];
+    }
+    this.setState({ filters: newFilters });
+    //console.log(filter);
+  }
+
+  onClearFilters = () => {
+    this.setState({filters: {} });
+    //console.log('Clear Filter')
+  }
+
+  handleGridSort = (sortColumn, sortDirection) => {
+    this.setState({ sortColumn: sortColumn, sortDirection: sortDirection });
   }
 
   onCellSelected = ({ rowIdx, idx }) => {
@@ -171,7 +214,8 @@ export default class Grid extends Component {
           onAddFilter={this.handleFilterChange}
           enableCellSelect
           onCellSelected={this.onCellSelected}
-          onClearFilters={this.onClearFilters} />
+          onClearFilters={this.onClearFilters}
+          onGridSort={this.handleGridSort} />
       </div>
     )
   }
