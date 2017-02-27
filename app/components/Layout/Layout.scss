@@ -101,3 +101,7 @@
     }
   }
 }
+
+div[data-modal="true"] {
+  position: absolute !important;
+}

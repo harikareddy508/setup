@@ -4,6 +4,11 @@ import 'react-select/dist/react-select.css';
 import { ButtonGroup, Radio, Label, FieldGroup } from 'react-bootstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react'
+import VirtualizedSelect from 'react-virtualized-select'
+import createFilterOptions from 'react-select-fast-filter-options';
+import 'react-select/dist/react-select.css'
+import 'react-virtualized/styles.css'
+import 'react-virtualized-select/styles.css'
 import Grid from '../Grid'
 import './Layout.scss'
 
@@ -24,6 +29,7 @@ export default class Layout extends Component {
       visible: false,
       visibleOptions: [],
       groupassignOptions: [],
+      filterOptions: undefined,
     }
   }
 
@@ -61,8 +67,10 @@ export default class Layout extends Component {
 
   parseResponse(json) {
     this.setState({
-      alarmOptions: json
+      alarmOptions: json,
+      visibleOptions: this.constructOptions(json.slice(0, 5000)),
     })
+    this.filterOptions = createFilterOptions({ json });
   }
 
   constructOptions(arrayOfOptions) {
@@ -82,7 +90,7 @@ export default class Layout extends Component {
     }).then((json) => {
       this.parseResponse(json)
       // this.setState({
-      //   visibleOptions: this.constructOptions(this.state.alarmOptions.slice(0, 50))
+      //   visibleOptions: this.constructOptions(this.state.alarmOptions.slice(0, 5000))
       // })
     }).catch((error) => {
       console.log(error)
@@ -142,9 +150,9 @@ export default class Layout extends Component {
   getOptions = (input, callback) => {
     let filteredResults = this.state.alarmOptions.filter((option) => {
           return option.name.toLowerCase().startsWith(input.toLowerCase())
-    }).slice(0, 50);
+    }).slice(0, 5000);
     if (input === "") {
-      filteredResults = this.state.alarmOptions.slice(0, 50);
+      filteredResults = this.state.alarmOptions.slice(0, 5000);
     }
     callback(null, { options: this.constructOptions(filteredResults) });
   }
@@ -174,7 +182,10 @@ export default class Layout extends Component {
                   <div className="container col-md-9">
                       <div className="alarm-group">
                         <label className="alarm-name">Alarm Name:</label>
-                        <Select.Async
+                        <VirtualizedSelect
+                          async
+                          clearable
+                          filterOptions={this.filterOptions}
                           className="select-alarm-name"
                           name="form-field-name"
                           value={this.state.alarm}
