@@ -140,6 +140,13 @@ export default class Grid extends Component {
     })
   }
 
+  handleRowsSelected = (rows) => {
+    console.log(rows.map(r => r.rowIdx))
+    this.setState({ selectedIndexes: rows.map(r => r.rowIdx) }, () => {
+      this.props.onRowSelect(rows[0].row)
+    });
+  }
+
   render() {
     const { data } = this.props
     return (
@@ -215,6 +222,14 @@ export default class Grid extends Component {
           enableCellSelect
           onCellSelected={this.onCellSelected}
           onClearFilters={this.onClearFilters}
+          rowSelection={{
+            showCheckbox: true,
+            enableShiftSelect: true,
+            onRowsSelected: this.handleRowsSelected,
+            selectBy: {
+              indexes: this.state.selectedIndexes
+            }
+          }}
           onGridSort={this.handleGridSort} />
       </div>
     )

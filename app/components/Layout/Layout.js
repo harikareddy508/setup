@@ -30,6 +30,7 @@ export default class Layout extends Component {
       visibleOptions: [],
       groupassignOptions: [],
       filterOptions: undefined,
+      selectedRow: {},
     }
   }
 
@@ -68,7 +69,7 @@ export default class Layout extends Component {
   parseResponse(json) {
     this.setState({
       alarmOptions: json,
-      visibleOptions: this.constructOptions(json.slice(0, 5000)),
+      visibleOptions: this.constructOptions(json.slice(0, 150000)),
     })
     this.filterOptions = createFilterOptions({ json });
   }
@@ -150,11 +151,17 @@ export default class Layout extends Component {
   getOptions = (input, callback) => {
     let filteredResults = this.state.alarmOptions.filter((option) => {
           return option.name.toLowerCase().startsWith(input.toLowerCase())
-    }).slice(0, 5000);
+    }).slice(0, 150000);
     if (input === "") {
-      filteredResults = this.state.alarmOptions.slice(0, 5000);
+      filteredResults = this.state.alarmOptions.slice(0, 150000);
     }
     callback(null, { options: this.constructOptions(filteredResults) });
+  }
+
+  onRowSelect = (row) => {
+    this.setState({
+      groupassign: row['Group Assign'],
+    });
   }
 
   render() {
@@ -183,7 +190,6 @@ export default class Layout extends Component {
                       <div className="alarm-group">
                         <label className="alarm-name">Alarm Name:</label>
                         <VirtualizedSelect
-                          async
                           clearable
                           filterOptions={this.filterOptions}
                           className="select-alarm-name"
@@ -196,7 +202,7 @@ export default class Layout extends Component {
                       </div>
                       <div className="grid">
                         {/*<Grid data={this.state.data}/> */}
-                        <Grid data={this.state.data} />
+                        <Grid data={this.state.data} onRowSelect={this.onRowSelect} />
                       </div>
                     </div>
                     <div className="inner-container col-md-3">
