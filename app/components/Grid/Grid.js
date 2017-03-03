@@ -33,15 +33,15 @@ export default class Grid extends Component {
     this.state = {
       columns: [
         {
-          key: 'Manager Class',
-          name: 'Manager Class',
+          key: 'Alert Name',
+          name: 'Alarm Name',
           resizable: true,
           sortable: true,
           filterable: true
         },
         {
-          key: 'Alert Name',
-          name: 'Alert Name',
+          key: 'Manager Class',
+          name: 'Manager Class',
           resizable: true,
           sortable: true,
           filterable: true
@@ -124,7 +124,7 @@ export default class Grid extends Component {
   }
 
   onCellSelected = ({ rowIdx, idx }) => {
-    if (idx === 3) {
+    if (idx === 4) {
       this.setState({
         show: true,
         selectedRowId: rowIdx,
@@ -216,7 +216,7 @@ export default class Grid extends Component {
           rowGetter={this.rowGetter}
           enableCellSelect={true}
           rowsCount={this.getSize()}
-          minHeight={385}
+          minHeight={562}
           toolbar={<Toolbar enableFilter={true}/>}
           onAddFilter={this.handleFilterChange}
           enableCellSelect

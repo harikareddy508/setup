@@ -1,23 +1,33 @@
 .Layout {
-  * {
-    font-size: 1.5rem !important;
+  .home-view {
+    display: flex;
   }
   .content {
-    background-color: white;
+    background-color: #E4E5E3;
+    .menu {
+      display: flex;
+      justify-content: center;
+      height: 6rem;
+    }
+  }
+  .container {
+    .grid {
+      margin-top: 4rem;
+    }
+  }
+  * {
+    font-size: 1.5rem !important;
   }
   .image-container {
     background-color: white;
   }
   .image-header {
-    height: 5.5rem;
+    height: 5rem;
   }
  .time-group, .radio-group {
     height: 6rem;
     margin-bottom: 1rem;
     margin-top:1rem;
-  }
-  .grid {
-    margin-top: 3rem;
   }
   .react-grid-Header {
     text-align: center;
@@ -30,7 +40,6 @@
     }
   }
   .submit-button{
-    margin-top: 1rem;
     background-color:lightblue;
     border-color:lightblue;
     color: white;
@@ -44,7 +53,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 1rem;
       margin-bottom: 1rem;
       div {
         display: inline-block;
@@ -74,11 +82,6 @@
   }
 }
 
-.ui.segment, .ui.segments .segment {
-    font-size: 1rem;
-    border-top: none;
-}
-
 .stats {
   display: flex;
   align-items: center;
@@ -101,7 +104,22 @@
     }
   }
 }
-
 div[data-modal="true"] {
   position: absolute !important;
+}
+a {
+  color: black;
+  font-weight: bold;
+  font-size: 18px;
+}
+a:hover{
+  color:#cd040b;
+  border-bottom: 3px solid #cd040b;
+}
+.navbar-nav {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.nav>li>a:focus, .nav>li>a:hover {
+  background-color: transparent;
 }
