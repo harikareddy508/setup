@@ -58,6 +58,7 @@ export default class Grid extends Component {
           name: "Stats",
           resizable: true,
           sortable: true,
+          filterable: true,
           formatter: ColumnModal,
         },
         {
@@ -82,8 +83,6 @@ export default class Grid extends Component {
       })
     }
   }
-
-
 
   rowGetter = (rowIndex) => {
     const data = this.getRows()
@@ -111,7 +110,6 @@ export default class Grid extends Component {
       delete newFilters[filter.column.key];
     }
     this.setState({ filters: newFilters });
-    //console.log(filter);
   }
 
   onClearFilters = () => {
@@ -124,20 +122,27 @@ export default class Grid extends Component {
   }
 
   onCellSelected = ({ rowIdx, idx }) => {
-    if (idx === 4) {
+    if (idx === 3) {
       this.setState({
         show: true,
         selectedRowId: rowIdx,
         selectedColumnId: idx,
-        selectedRow: this.props.data[rowIdx],
+        selectedRow: this.getRows()[rowIdx],
       })
+    }
+    if (idx === 0) {
+      this.props.handleRowsSelected(this.getRows()[rowIdx])
     }
   }
 
   modalClose = () => {
     this.setState({
       show: false,
-    })
+    }, () => {
+      this.grid && this.grid.setState({
+        selected: {},
+      });
+    });
   }
 
   handleRowsSelected = (rows) => {
@@ -212,6 +217,7 @@ export default class Grid extends Component {
           </div>
         </Modal>
         <DataGrid
+          ref={grid => { this.grid = grid;}}
           columns={this.state.columns}
           rowGetter={this.rowGetter}
           enableCellSelect={true}
@@ -222,14 +228,6 @@ export default class Grid extends Component {
           enableCellSelect
           onCellSelected={this.onCellSelected}
           onClearFilters={this.onClearFilters}
-          rowSelection={{
-            showCheckbox: true,
-            enableShiftSelect: true,
-            onRowsSelected: this.handleRowsSelected,
-            selectBy: {
-              indexes: this.state.selectedIndexes
-            }
-          }}
           onGridSort={this.handleGridSort} />
       </div>
     )

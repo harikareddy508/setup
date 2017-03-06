@@ -68,7 +68,6 @@ export default class Home extends Component {
   parseResponse(json) {
     this.setState({
       alarmOptions: json,
-      visibleOptions: this.constructOptions(json.slice(0, 150000)),
     })
     this.filterOptions = createFilterOptions({ json });
   }
@@ -143,44 +142,14 @@ export default class Home extends Component {
     })
   }
 
-  getOptions = (input, callback) => {
-    if (this.state.alarm || this.state.alarmname) {
-      this.setState({
-        alarm: '',
-        alarmname: '',
-      }, () => {
-        let filteredResults = this.state.alarmOptions.filter((option) => {
-          return option.name.toLowerCase().startsWith(input.toLowerCase())
-        }).slice(0, 150000);
-        if (input === "") {
-          filteredResults = this.state.alarmOptions.slice(0, 150000);
-        }
-        callback(null, { options: filteredResults });
-      })
-    } else {
-      let filteredResults = this.state.alarmOptions.filter((option) => {
-        return option.name.toLowerCase().startsWith(input.toLowerCase())
-      }).slice(0, 150000);
-      if (input === "") {
-        filteredResults = this.state.alarmOptions.slice(0, 150000);
-      }
-      callback(null, { options: filteredResults });
-    }
-  }
-
-  onRowSelect = (row) => {
-    this.setState({
-      groupassign: row['Group Assign'],
-    });
-  }
-
   render() {
+    const { selectedRow, handleRowsSelected } = this.props;
     return (
       <div className="home-view">
         <div className="container col-md-9">
             <div className="grid">
               {/*<Grid data={this.state.data}/> */}
-              <Grid data={this.state.data} onRowSelect={this.onRowSelect} />
+              <Grid data={this.state.data}  handleRowsSelected={handleRowsSelected}/>
             </div>
           </div>
           <div className="inner-container col-md-3">
@@ -188,7 +157,7 @@ export default class Home extends Component {
               <div className="label">
                 <span className="name">Alarm Name</span>
               </div>
-              <div className="value">{this.state.alarmname}</div>
+              <div className="value">{selectedRow['Alert Name']}</div>
             </div>
             <div className="tabs">
               <Tabs>

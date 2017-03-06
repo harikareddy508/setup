@@ -4,6 +4,19 @@ import Grid from '../Grid'
 
 export default class Layout extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedRow: {},
+    }
+  }
+
+  handleRowsSelected = (row) => {
+    this.setState({
+      selectedRow: row,
+    });
+  }
+
   render() {
     return (
       <div className="Layout">
@@ -19,7 +32,7 @@ export default class Layout extends Component {
                 <li data-reactid="20"><a href="/#/approvals-production-view" data-reactid="21">Approvals Production View</a></li>
               </ul>
             </div>
-            {this.props.children}
+            {React.cloneElement(this.props.children, {...this.props, handleRowsSelected: this.handleRowsSelected, selectedRow: this.state.selectedRow })}
           </div>
       </div>
       )
