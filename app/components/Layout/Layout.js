@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import Grid from '../Grid'
-
+import './Layout.scss'
 export default class Layout extends Component {
 
   constructor(props) {
@@ -26,8 +26,18 @@ export default class Layout extends Component {
         <div className="content">
            <div className="menu">
               <ul id="top" role="navigation" class="nav navbar-nav" data-reactid="15">
-                <li data-reactid="16"><a href="/#/home" data-reactid="17">Home</a></li>
-                <li data-reactid="18"><a href="/#/approvals-view" data-reactid="19">Approvals View</a></li>
+                <li data-reactid="16" className="item">
+                  <a href="/#/home" data-reactid="17">Home</a>
+                    <div className="count">
+                      <span className="number">3</span>
+                    </div>
+                </li>
+                <li data-reactid="18" className="item">
+                  <a href="/#/approvals-view" data-reactid="19">Approvals View</a>
+                    <div className="count">
+                      <span className="number">3</span>
+                    </div>
+                </li>
                 <li data-reactid="20"><a href="/#/testers-view" data-reactid="21">Testers View</a></li>
                 <li data-reactid="20"><a href="/#/approvals-production-view" data-reactid="21">Approvals Production View</a></li>
               </ul>

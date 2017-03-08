@@ -33,6 +33,15 @@ export default class Home extends Component {
     }
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.selectedRow !== this.props.selectedRow) {
+      this.setState({
+        groupassign: nextProps.selectedRow['Group Assign'],
+      });
+    }
+  }
+
+
   handleAlarmChange = (selectedValue) => {
       if (selectedValue) {
         this.setState({
@@ -171,9 +180,12 @@ export default class Home extends Component {
                     <Select
                       className="select-group-assign"
                       name="form-field-name"
+                      valueKey="id"
+                      labelKey="name"
                       value={this.state.groupassign}
                       options={this.state.groupassignOptions}
                       onChange={this.handleGroupAssignChange}
+                      disabled
                     />
                   </div>
                     <div className="time-group">

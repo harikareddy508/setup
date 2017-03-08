@@ -84,6 +84,15 @@ export default class Grid extends Component {
     }
   }
 
+  componentDidMount () {
+    if(this.grid) {
+      this.grid.setState({
+        selected: {},
+      });
+    }
+  }
+
+
   rowGetter = (rowIndex) => {
     const data = this.getRows()
     const rowData = data[rowIndex];
@@ -130,9 +139,7 @@ export default class Grid extends Component {
         selectedRow: this.getRows()[rowIdx],
       })
     }
-    if (idx === 0) {
-      this.props.handleRowsSelected(this.getRows()[rowIdx])
-    }
+    this.props.handleRowsSelected(this.getRows()[rowIdx])
   }
 
   modalClose = () => {
