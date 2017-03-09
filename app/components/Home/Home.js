@@ -3,12 +3,7 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import { ButtonGroup, Radio, Label, FieldGroup } from 'react-bootstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react'
-import VirtualizedSelect from 'react-virtualized-select'
 import createFilterOptions from 'react-select-fast-filter-options';
-import 'react-select/dist/react-select.css'
-import 'react-virtualized/styles.css'
-import 'react-virtualized-select/styles.css'
 import Grid from '../Grid';
 import './Home.scss'
 
@@ -25,8 +20,6 @@ export default class Home extends Component {
     this.state = {
       alarmOptions: [],
       data: [],
-      visible: false,
-      visibleOptions: [],
       groupassignOptions: [],
       filterOptions: undefined,
       selectedRow: {},
@@ -36,7 +29,7 @@ export default class Home extends Component {
   componentWillReceiveProps (nextProps) {
     if (nextProps.selectedRow !== this.props.selectedRow) {
       this.setState({
-        groupassign: nextProps.selectedRow['Group Assign'],
+        groupassign: nextProps.selectedRow['groupAssign'],
       });
     }
   }
@@ -58,13 +51,13 @@ export default class Home extends Component {
 
 
   sendToDB = () => {
-    //this.state.alarm => 'selected value' => 123
+    const { selectedRow } = this.props;
     fetch('url to post', {
       method: 'POST',
       body: [
         {
-        alarm_id: this.state.alarm,
-        alarm_name: this.state.alarmname,
+        alarm_id: selectedRow["alarmId"],
+        alarm_name: selectedRow["alarmName"],
         threshold: this.state.time,
         callout: this.state.callout,
       }
@@ -74,36 +67,11 @@ export default class Home extends Component {
     })
   }
 
-  parseResponse(json) {
-    this.setState({
-      alarmOptions: json,
-    })
-    this.filterOptions = createFilterOptions({ json });
-  }
-
-  constructOptions(arrayOfOptions) {
-    const options = []
-    for(var i = 0; i< arrayOfOptions.length; i++) {
-      options.push({
-        label: arrayOfOptions[i].name,
-        value: arrayOfOptions[i].id,
-      })
-    }
-    return options;
-  }
-
   componentWillMount() {
-    fetch('public/Jsonfile/alarms.json').then((response) => {
-      return response.json()
-    }).then((json) => {
-      this.parseResponse(json)
-    }).catch((error) => {
-      console.log(error)
-    })
-    fetch('public/Jsonfile/smartAlarmingGridData.json').then(response => response.json()).then((json) => {
+    fetch('public/Jsonfile/tatt.json').then(response => response.json()).then((json) => {
       const entries = json.reduce((accu, elem) => {
-        const groupAssign = elem["Group Assign"]
-        if (!accu.some((el) => el.name === groupAssign)) {
+        const groupAssign = elem["groupAssign"]
+        if (groupAssign !== '' && !accu.some((el) => el.name === groupAssign)) {
           accu = [...accu, { name: groupAssign, id: groupAssign }];
         }
         return accu;
@@ -166,7 +134,7 @@ export default class Home extends Component {
               <div className="label">
                 <span className="name">Alarm Name</span>
               </div>
-              <div className="value">{selectedRow['Alert Name']}</div>
+              <div className="value">{selectedRow['alarmName']}</div>
             </div>
             <div className="tabs">
               <Tabs>
@@ -185,7 +153,6 @@ export default class Home extends Component {
                       value={this.state.groupassign}
                       options={this.state.groupassignOptions}
                       onChange={this.handleGroupAssignChange}
-                      disabled
                     />
                   </div>
                     <div className="time-group">

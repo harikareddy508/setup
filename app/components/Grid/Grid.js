@@ -33,22 +33,22 @@ export default class Grid extends Component {
     this.state = {
       columns: [
         {
-          key: 'Alert Name',
+          key: 'alarmName',
           name: 'Alarm Name',
           resizable: true,
           sortable: true,
           filterable: true
         },
         {
-          key: 'Manager Class',
+          key: 'managerClass',
           name: 'Manager Class',
           resizable: true,
           sortable: true,
           filterable: true
         },
         {
-          key: 'Alert Description',
-          name: 'Alert Description',
+          key: 'alarmDescription',
+          name: 'Alarm Description',
           resizable: true,
           sortable: true,
           filterable: true
@@ -62,7 +62,7 @@ export default class Grid extends Component {
           formatter: ColumnModal,
         },
         {
-          key: 'Considerations',
+          key: 'considerations',
           name: 'Considerations',
           resizable: true,
           sortable: true,
@@ -170,7 +170,7 @@ export default class Grid extends Component {
                 2016 Alerts
               </div>
               <div className="value">
-                {this.state.selectedRow && this.state.selectedRow["2016 Alerts"]}
+                {this.state.selectedRow && this.state.selectedRow["alerts"]}
               </div>
             </div>
             <div className="row">
@@ -178,7 +178,7 @@ export default class Grid extends Component {
                 2016 Alerts Displayed
               </div>
               <div className="value">
-                {this.state.selectedRow && this.state.selectedRow["2016 Alerts Displayed"]}
+                {this.state.selectedRow && this.state.selectedRow["alertsDisplayed"]}
               </div>
             </div>
               <div className="row">
@@ -186,7 +186,7 @@ export default class Grid extends Component {
                   YTD Alerts
                 </div>
                 <div className="value">
-                  {this.state.selectedRow && this.state.selectedRow["YTD Alerts"]}
+                  {this.state.selectedRow && this.state.selectedRow["ytdAlerts"]}
                 </div>
             </div>
               <div className="row">
@@ -194,7 +194,7 @@ export default class Grid extends Component {
                   YTD Alerts Displayed
                 </div>
                 <div className="value">
-                  {this.state.selectedRow && this.state.selectedRow["YTD Alerts Displayed"]}
+                  {this.state.selectedRow && this.state.selectedRow["ytdAlertsDisplayed"]}
                 </div>
              </div>
               <div className="row">
@@ -202,7 +202,7 @@ export default class Grid extends Component {
                   2016 Year Tickets
                 </div>
                 <div className="value">
-                  {this.state.selectedRow && this.state.selectedRow["2016 Year Tickets"]}
+                  {this.state.selectedRow && this.state.selectedRow["yearTickets"]}
                 </div>
               </div>
                <div className="row">
@@ -210,7 +210,7 @@ export default class Grid extends Component {
                   YTD Tickets
                 </div>
                 <div className="value">
-                  {this.state.selectedRow && this.state.selectedRow["YTD Tickets"]}
+                  {this.state.selectedRow && this.state.selectedRow["ytdTickets"]}
                 </div>
             </div>
              <div className="row">
@@ -218,7 +218,7 @@ export default class Grid extends Component {
                   Mitigated Alerts Based On Time Threshold
                 </div>
                 <div className="value">
-                  {this.state.selectedRow && this.state.selectedRow["Mitigated Alerts Based On Time Threshold"]}
+                  {this.state.selectedRow && this.state.selectedRow["mitigatedAlertsBasedOnTimeThreshold"]}
                 </div>
             </div>
           </div>
