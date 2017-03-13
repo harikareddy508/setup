@@ -175,7 +175,9 @@ export default class Home extends Component {
                     <button className="submit-button" onClick={this.sendToDB} type="submit">Submit</button>
                   </TabPanel>
                   <TabPanel>
-                    OLA
+                   <label className="ola-updated">Updated OLA</label>
+                      <textarea className="text-ola" value={selectedRow && selectedRow['updatedOla']}>
+                      </textarea>
                   </TabPanel>
                 </Tabs>
               </div>
