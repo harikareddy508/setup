@@ -49,7 +49,6 @@ export default class Home extends Component {
     }
   }
 
-
   sendToDB = () => {
     const { selectedRow } = this.props;
     fetch('url to post', {
