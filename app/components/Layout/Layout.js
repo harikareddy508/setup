@@ -60,9 +60,11 @@ export default class Layout extends Component {
                 </li>
                 <li data-reactid="18" className="item">
                   <a href="/#/approvals-view" data-reactid="19">Approvals View</a>
-                    <div className="count">
-                      <span className="number">{this.state.count}</span>
-                    </div>
+                    {this.state.count && (
+                      <div className="count">
+                        <span className="number">{this.state.count}</span>
+                      </div>
+                    )}
                 </li>
                 <li data-reactid="20"><a href="/#/testers-view" data-reactid="21">Testers View</a></li>
                 <li data-reactid="20"><a href="/#/approvals-production-view" data-reactid="21">Approvals Production View</a></li>

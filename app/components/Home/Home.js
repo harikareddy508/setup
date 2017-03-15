@@ -149,7 +149,7 @@ export default class Home extends Component {
                       name="form-field-name"
                       valueKey="id"
                       labelKey="name"
-                      value={this.state.groupassign}
+                      value={selectedRow && selectedRow['groupAssign']}
                       options={this.state.groupassignOptions}
                       onChange={this.handleGroupAssignChange}
                     />
