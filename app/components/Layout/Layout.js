@@ -17,7 +17,7 @@ export default class Layout extends Component {
     })
   }
 
-  componentWillMount () {
+  reloadCount = () => {
     fetch ('url to post', {
         method: 'POST',
         body: JSON.stringify([{userName: 'approver3',}])
@@ -30,13 +30,10 @@ export default class Layout extends Component {
     .catch((error) => {
       console.log(error)
     })
+  }
 
-    fetch('url to username').then(response => response.json()) .then((json) => {
-      console.log(json)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+  componentWillMount () {
+    this.reloadCount();
   }
 
   handleRowsSelected = (row) => {
@@ -70,7 +67,11 @@ export default class Layout extends Component {
                 <li data-reactid="20"><a href="/#/approvals-production-view" data-reactid="21">Approvals Production View</a></li>
               </ul>
             </div>
-            {React.cloneElement(this.props.children, {...this.props, handleRowsSelected: this.handleRowsSelected, selectedRow: this.state.selectedRow })}
+            {React.cloneElement(this.props.children, {
+              ...this.props, handleRowsSelected: this.handleRowsSelected,
+              selectedRow: this.state.selectedRow,
+              reloadCount: this.reloadCount,
+            })}
           </div>
       </div>
       )
