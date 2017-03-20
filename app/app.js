@@ -13,10 +13,10 @@ const App = () => (
   <Router history={hashHistory}>
     <Route path="/" component={Layout}>
       <IndexRoute component={Home} />
-      <Route path="/tatt/home" component={Home} />
-      <Route path="/tatt/approvals-view" component={ApprovalsView} />
-      <Route path="/tatt/testers-view" component={Home} />
-      <Route path="/tatt/approvals-production-view" component={Home} />
+      <Route path="/home" component={Home} />
+      <Route path="/approvals-view" component={ApprovalsView} />
+      <Route path="/testers-view" component={Home} />
+      <Route path="/approvals-production-view" component={Home} />
     </Route>
   </Router>
 )

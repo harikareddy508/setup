@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-import { ButtonGroup, Radio, Label, FieldGroup } from 'react-bootstrap'
+import { ButtonGroup, Radio, Label, FieldGroup, Modal } from 'react-bootstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import createFilterOptions from 'react-select-fast-filter-options';
 import Grid from '../Grid';
+
+import './ApprovalsView.scss';
 
 const times = [
     { value: '30', label: '30' },
@@ -21,6 +23,7 @@ export default class ApprovalsView extends Component {
       groupassignOptions: [],
       filterOptions: undefined,
       selectedRow: {},
+      showModal: false,
     }
   }
 
@@ -78,19 +81,6 @@ export default class ApprovalsView extends Component {
         groupassignOptions: entries,
       })
     })
-    // fetch('public/Jsonfile/tatt.json').then(response => response.json()).then((json) => {
-    //   const entries = json.reduce((accu, elem) => {
-    //     const groupAssign = elem["groupAssign"]
-    //     if (groupAssign !== '' && !accu.some((el) => el.name === groupAssign)) {
-    //       accu = [...accu, { name: groupAssign, id: groupAssign }];
-    //     }
-    //     return accu;
-    //   }, [])
-    //   this.setState({
-    //     data: json,
-    //     groupassignOptions: entries,
-    //   })
-    // })
   }
 
   handleGroupAssignChange = (selectedValue) => {
@@ -129,10 +119,60 @@ export default class ApprovalsView extends Component {
     })
   }
 
+  handleShowModal = (title) => {
+    this.setState({
+      title,
+      showModal: true,
+    });
+  }
+
+  handleClose = () => {
+    this.setState({
+      showModal: false,
+    })
+  }
+
+  handleSuccess = () => {
+    if (this.state.title === 'Approve') {
+      this.sendToDB();
+    }
+    if (this.state.title === 'Reject') {
+      // What should we do when he clicks on reject
+    }
+
+    this.setState({
+      showModal: false,
+    });
+  }
+
+  handleRejection = () => {
+    if (this.state.title === 'Approve') {
+      this.setState({
+        showModal: false,
+      })
+    }
+    if (this.state.title === 'Reject') {
+      this.setState({
+        showModal: false,
+      })
+    }
+  }
+
   render() {
     const { selectedRow, handleRowsSelected } = this.props;
     return (
       <div className="home-view">
+        <Modal show={this.state.showModal}>
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title">
+              Are you sure you want to {this.state.title} ticket automation
+            </Modal.Title>
+            <Modal.Footer>
+              <button className="yes" onClick={this.handleSuccess}>Yes</button>
+              <button className="no" onClick={this.handleRejection}>No</button>
+            </Modal.Footer>
+          </Modal.Header>
+        </Modal>
         <div className="container col-md-9">
             <div className="grid">
               {/*<Grid data={this.state.data}/> */}
@@ -182,7 +222,8 @@ export default class ApprovalsView extends Component {
                           <Radio inline name="groupOptions" checked={selectedRow['ticketNoCallout'] === 'No'} onChange={() => this.handleCheckbox('option 2')}>No</Radio>
                       </ButtonGroup>
                     </div>
-                    <button className="submit-button" onClick={this.sendToDB} type="submit">Submit</button>
+                    <button className="submit-button" onClick={() => this.handleShowModal('Approve')}>Approve</button>
+                     <button className="submit-button" onClick={() => this.handleShowModal('Reject')}>Reject</button>
                   </TabPanel>
                   <TabPanel>
                    <label className="ola-updated">Updated OLA</label>

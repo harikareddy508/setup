@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react'
 import DataGrid from 'react-data-grid'
 import Modal from 'simple-react-modal'
 import { Toolbar,  Data } from 'react-data-grid-addons'
+import update from 'react-addons-update'
 
 class ColumnModal extends Component {
   constructor(props) {
@@ -66,6 +67,7 @@ export default class Grid extends Component {
           name: 'Considerations',
           resizable: true,
           sortable: true,
+          editable: true,
           filterable: true
         }
       ],
@@ -159,6 +161,17 @@ export default class Grid extends Component {
     });
   }
 
+  handleGridRowsUpdated = ({ fromRow, toRow, updated }) => {
+    const { rows } = this.state;
+    const row = Object.assign({}, rows[fromRow], updated);
+    rows[fromRow] = row;
+    this.setState({
+      rows,
+    }, () => {
+      this.props.rowsUpdated && this.props.rowsUpdated();
+    });
+  }
+
   render() {
     const { data } = this.props
     return (
@@ -235,6 +248,7 @@ export default class Grid extends Component {
           enableCellSelect
           onCellSelected={this.onCellSelected}
           onClearFilters={this.onClearFilters}
+          onGridRowsUpdated={this.handleGridRowsUpdated}
           onGridSort={this.handleGridSort} />
       </div>
     )

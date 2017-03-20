@@ -162,6 +162,7 @@ export default class Home extends Component {
                         value={this.state.time}
                         options={times}
                         onChange={this.handleTimeChange}
+                        required
                       />
                     </div>
                     <div className="radio-group">
