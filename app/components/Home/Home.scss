@@ -113,19 +113,3 @@
 div[data-modal="true"] {
   position: absolute !important;
 }
-a {
-  color: black;
-  font-weight: bold;
-  font-size: 18px;
-}
-a:hover{
-  color:#cd040b;
-  border-bottom: 3px solid #cd040b;
-}
-.navbar-nav {
-  position: relative;
-  margin-bottom: 1.5rem;
-}
-.nav>li>a:focus, .nav>li>a:hover {
-  background-color: transparent;
-}

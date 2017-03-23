@@ -4,6 +4,7 @@ import 'react-select/dist/react-select.css';
 import { ButtonGroup, Radio, Label, FieldGroup } from 'react-bootstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import createFilterOptions from 'react-select-fast-filter-options';
+import Loader from '../Loader';
 import Grid from '../Grid';
 import './Home.scss'
 
@@ -23,6 +24,7 @@ export default class Home extends Component {
       groupassignOptions: [],
       filterOptions: undefined,
       selectedRow: {},
+      showLoader: false,
     }
   }
 
@@ -51,7 +53,7 @@ export default class Home extends Component {
 
   sendToDB = () => {
     const { selectedRow } = this.props;
-    fetch('url to post', {
+    fetch('/', {
       method: 'POST',
       body: [
         {
@@ -67,6 +69,9 @@ export default class Home extends Component {
   }
 
   componentWillMount() {
+    this.setState({
+      showLoader: true,
+    })
     fetch('public/Jsonfile/tatt.json').then(response => response.json()).then((json) => {
       const entries = json.reduce((accu, elem) => {
         const groupAssign = elem["groupAssign"]
@@ -76,8 +81,12 @@ export default class Home extends Component {
         return accu;
       }, [])
       this.setState({
-        data: json,
-        groupassignOptions: entries,
+        showLoader: false,
+      }, () => {
+        this.setState({
+          data: json,
+          groupassignOptions: entries,
+        })
       })
     })
   }
@@ -121,67 +130,71 @@ export default class Home extends Component {
   render() {
     const { selectedRow, handleRowsSelected } = this.props;
     return (
-      <div className="home-view">
-        <div className="container col-md-9">
-            <div className="grid">
-              {/*<Grid data={this.state.data}/> */}
-              <Grid data={this.state.data}  handleRowsSelected={handleRowsSelected}/>
-            </div>
-          </div>
-          <div className="inner-container col-md-3">
-            <div className="alarm-label">
-              <div className="label">
-                <span className="name">Alarm Name</span>
+      <div>
+        {this.state.showLoader ? <Loader /> :
+          <div className="home-view">
+            <div className="container col-md-9">
+                <div className="grid">
+                  {/*<Grid data={this.state.data}/> */}
+                  <Grid data={this.state.data}  handleRowsSelected={handleRowsSelected}/>
+                </div>
               </div>
-              <div className="value">{selectedRow['alarmName']}</div>
-            </div>
-            <div className="tabs">
-              <Tabs>
-                <TabList>
-                  <Tab>Ticket Automation</Tab>
-                  <Tab>OLA</Tab>
-                </TabList>
-                <TabPanel>
-                  <div className="assign-group">
-                    <label className="groupassign">Group Assign:</label>
-                    <Select
-                      className="select-group-assign"
-                      name="form-field-name"
-                      valueKey="id"
-                      labelKey="name"
-                      value={selectedRow && selectedRow['groupAssign']}
-                      options={this.state.groupassignOptions}
-                      onChange={this.handleGroupAssignChange}
-                    />
+              <div className="inner-container col-md-3">
+                <div className="alarm-label">
+                  <div className="label">
+                    <span className="name">Alarm Name</span>
                   </div>
-                    <div className="time-group">
-                      <label className="time-stamp">Time Stamp:</label>
-                      <Select
-                        className="select-time-stamp"
-                        name="form-field-name"
-                        value={this.state.time}
-                        options={times}
-                        onChange={this.handleTimeChange}
-                        required
-                      />
-                    </div>
-                    <div className="radio-group">
-                      <label className="callout">Call Out:</label>
-                      <ButtonGroup>
-                          <Radio inline name="groupOptions" onChange={() => this.handleCheckbox('option 1')}>Option 1</Radio>
-                          <Radio inline name="groupOptions" onChange={() => this.handleCheckbox('option 2')}>Option 2</Radio>
-                      </ButtonGroup>
-                    </div>
-                    <button className="submit-button" onClick={this.sendToDB} type="submit">Submit</button>
-                  </TabPanel>
-                  <TabPanel>
-                   <label className="ola-updated">Updated OLA</label>
-                      <textarea className="text-ola" value={selectedRow && selectedRow['updatedOla']}>
-                      </textarea>
-                  </TabPanel>
-                </Tabs>
+                  <div className="value">{selectedRow['alarmName']}</div>
+                </div>
+                <div className="tabs">
+                  <Tabs>
+                    <TabList>
+                      <Tab>Ticket Automation</Tab>
+                      <Tab>OLA</Tab>
+                    </TabList>
+                    <TabPanel>
+                      <div className="assign-group">
+                        <label className="groupassign">Group Assign:</label>
+                        <Select
+                          className="select-group-assign"
+                          name="form-field-name"
+                          valueKey="id"
+                          labelKey="name"
+                          value={selectedRow && selectedRow['groupAssign']}
+                          options={this.state.groupassignOptions}
+                          onChange={this.handleGroupAssignChange}
+                        />
+                      </div>
+                        <div className="time-group">
+                          <label className="time-stamp">Time Stamp:</label>
+                          <Select
+                            className="select-time-stamp"
+                            name="form-field-name"
+                            value={this.state.time}
+                            options={times}
+                            onChange={this.handleTimeChange}
+                            required
+                          />
+                        </div>
+                        <div className="radio-group">
+                          <label className="callout">Call Out:</label>
+                          <ButtonGroup>
+                              <Radio inline name="groupOptions" onChange={() => this.handleCheckbox('option 1')}>Option 1</Radio>
+                              <Radio inline name="groupOptions" onChange={() => this.handleCheckbox('option 2')}>Option 2</Radio>
+                          </ButtonGroup>
+                        </div>
+                        <button className="submit-button" onClick={this.sendToDB} type="submit">Submit</button>
+                      </TabPanel>
+                      <TabPanel>
+                      <label className="ola-updated">Updated OLA</label>
+                          <textarea className="text-ola" value={selectedRow && selectedRow['updatedOla']}>
+                          </textarea>
+                      </TabPanel>
+                    </Tabs>
+                  </div>
               </div>
           </div>
+        }
       </div>
     )
   }

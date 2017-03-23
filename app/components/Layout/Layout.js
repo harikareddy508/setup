@@ -43,6 +43,7 @@ export default class Layout extends Component {
   }
 
   render() {
+    const { location } = this.props
     return (
       <div className="Layout">
         <header className="image-container">
@@ -53,18 +54,18 @@ export default class Layout extends Component {
            <div className="menu">
               <ul id="top" role="navigation" class="nav navbar-nav" data-reactid="15">
                 <li data-reactid="16" className="item">
-                  <a href="/#/home" data-reactid="17">Home</a>
+                  <a href="/#/home" data-reactid="17" className={location.pathname.includes('home') && 'active'}>Home</a>
                 </li>
                 <li data-reactid="18" className="item">
-                  <a href="/#/approvals-view" data-reactid="19">Approvals View</a>
+                  <a href="/#/approvals-view" data-reactid="19" className={location.pathname.includes('approvals-view') && 'active'}>Approvals View</a>
                     {this.state.count && (
                       <div className="count">
                         <span className="number">{this.state.count}</span>
                       </div>
                     )}
                 </li>
-                <li data-reactid="20"><a href="/#/testers-view" data-reactid="21">Testers View</a></li>
-                <li data-reactid="20"><a href="/#/approvals-production-view" data-reactid="21">Approvals Production View</a></li>
+                <li data-reactid="20"><a href="/#/testers-view" data-reactid="21" className={location.pathname.includes('testers-view') && 'active'}>Testers View</a></li>
+                <li data-reactid="20"><a href="/#/approvals-production-view" data-reactid="21" className={location.pathname.includes('approvals-production-view') && 'active'}>Approvals Production View</a></li>
               </ul>
             </div>
             {React.cloneElement(this.props.children, {
